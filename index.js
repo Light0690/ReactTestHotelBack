@@ -10,9 +10,7 @@ import { handleValidatuinErrors, checkAuth } from "./utils/index.js";
 import { UserController, HotelController } from "./controllers/index.js";
 
 mongoose
-  .connect(
-    "mongodb+srv://admin:Wsufycrbqvbh6996@cluster0.vhwlrwe.mongodb.net/blog?retryWrites=true&w=majority"
-  )
+  .connect(process.env.MONGODB_URI)
   .then(() => console.log("DB ok"))
   .catch((err) => console.log("DB error", err));
 
@@ -28,12 +26,12 @@ app.post(
   handleValidatuinErrors,
   UserController.reqister
 );
-app.get("/auth/me/:id", checkAuth , UserController.getMe);
+app.get("/auth/me/:id", checkAuth, UserController.getMe);
 
 app.get("/hotels/:city&:days", HotelController.getAll);
 app.post("/hotels", hotelCreateValidation, HotelController.create);
 
-app.listen(4444, (err) => {
+app.listen(process.env.PORT || 4444, (err) => {
   if (err) {
     return console.log(err);
   }
