@@ -5,18 +5,33 @@ import HotelModel from "../models/Hotel.js";
 export const getAll = async (req, res) => {
   try {
     const city = req.params.city.toLowerCase();
+    const checkInDate = req.params.checkInDate;
     const days = req.params.days;
 
-    const hotels = await HotelModel.find({
+    let hotels = await HotelModel.find({
       city: city,
     });
 
-    const result = hotels.map((hotel) => {
-      const price = hotel.priceAvg * days;
+    if (req.params.stars) {
+      const stars = req.params.stars;
+      const starsArray =
+        stars.length === 1 ? [+stars] : stars.split("").map(Number);
 
-      const hotelData = hotel._doc;
-      return { ...hotelData, priceAvg: price };
-    }).sort((a,b) => b.stars - a.stars);
+      hotels = hotels.filter((hotel) => {
+        if (starsArray.includes(hotel.stars)) {
+          return hotel;
+        }
+      });
+    }
+
+    const result = hotels
+      .map((hotel) => {
+        const price = hotel.priceAvg * days;
+
+        const hotelData = hotel._doc;
+        return { ...hotelData, checkInDate, days, priceAvg: price };
+      })
+      .sort((a, b) => b.stars - a.stars);
 
     res.json(result);
   } catch (err) {
@@ -30,10 +45,10 @@ export const getAll = async (req, res) => {
 export const create = async (req, res) => {
   try {
     const doc = new HotelModel({
-      hotelName: faker.word.adjective({strategy:'any-length'}),
-      city: 'белгород',
-      priceAvg: faker.number.int({min:3000,max:20000}),
-      stars: faker.number.int({min:1,max:5}),
+      hotelName: faker.word.adjective({ strategy: "any-length" }),
+      city: "белгород",
+      priceAvg: faker.number.int({ min: 3000, max: 20000 }),
+      stars: faker.number.int({ min: 1, max: 5 }),
       isFavorite: false,
     });
 
