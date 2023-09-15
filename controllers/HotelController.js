@@ -7,6 +7,7 @@ export const getAll = async (req, res) => {
     const city = req.params.city.toLowerCase();
     const checkInDate = req.params.checkInDate;
     const days = req.params.days;
+    const prices = req.params.prices;
 
     let hotels = await HotelModel.find({
       city: city,
@@ -24,6 +25,12 @@ export const getAll = async (req, res) => {
     }
 
     const result = hotels
+      .filter((hotel) => {
+        const pricesArray = prices.split(",");
+        return (
+          hotel.priceAvg >= pricesArray[0] && hotel.priceAvg <= pricesArray[1]
+        );
+      })
       .map((hotel) => {
         const price = hotel.priceAvg * days;
 

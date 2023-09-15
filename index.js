@@ -30,7 +30,7 @@ app.post(
 );
 app.get("/auth/me/:id", checkAuth, UserController.getMe);
 
-app.get("/hotels/:city&:checkInDate&:days/:stars*?", HotelController.getAll);
+app.get("/hotels/:city&:checkInDate&:days&:prices/:stars*?", HotelController.getAll);
 app.post("/hotels", hotelCreateValidation, HotelController.create);
 
 app.listen(4444, (err) => {
