@@ -14,8 +14,7 @@ export const getAll = async (req, res) => {
 
     if (req.params.stars) {
       const stars = req.params.stars;
-      const starsArray =
-        stars.length === 1 ? [+stars] : stars.split("").map(Number);
+      const starsArray = stars.split("").map(Number);
 
       hotels = hotels.filter((hotel) => {
         if (starsArray.includes(hotel.stars)) {
