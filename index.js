@@ -3,11 +3,15 @@ import mongoose from "mongoose";
 import cors from "cors";
 
 import { registerValidation } from "./validations/auth.js";
-import { hotelCreateValidation } from "./validations/hotel.js";
+// import { hotelCreateValidation } from "./validations/hotel.js";
 
 import { handleValidatuinErrors, checkAuth } from "./utils/index.js";
 
-import { UserController, HotelController } from "./controllers/index.js";
+import {
+  UserController,
+  HotelController,
+  FavoriteControler,
+} from "./controllers/index.js";
 
 mongoose
   .connect(
@@ -30,8 +34,14 @@ app.post(
 );
 app.get("/auth/me/:id", checkAuth, UserController.getMe);
 
-app.get("/hotels/:city&:checkInDate&:days&:prices/:stars*?", HotelController.getAll);
-app.post("/hotels", hotelCreateValidation, HotelController.create);
+app.get(
+  "/hotels/:city&:checkInDate&:days&:prices/:stars*?",
+  HotelController.getAll
+); 
+// app.post("/hotels", hotelCreateValidation, HotelController.create);
+
+app.get("/favorites/:id", FavoriteControler.getAll);
+app.post("/favorites/:id", FavoriteControler.changeFavorite);
 
 app.listen(4444, (err) => {
   if (err) {
