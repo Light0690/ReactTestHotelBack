@@ -1,4 +1,4 @@
-// import { faker } from "@faker-js/faker";
+import { faker } from "@faker-js/faker";
 
 import HotelModel from "../models/Hotel.js";
 
@@ -48,23 +48,23 @@ export const getAll = async (req, res) => {
   }
 };
 
-// export const create = async (req, res) => {
-//   try {
-//     const doc = new HotelModel({
-//       hotelName: faker.word.adjective({ strategy: "any-length" }),
-//       city: "белгород",
-//       priceAvg: faker.number.int({ min: 3000, max: 20000 }),
-//       stars: faker.number.int({ min: 1, max: 5 }),
-//       isFavorite: false,
-//     });
+export const create = async (req, res) => {
+  try {
+    const doc = new HotelModel({
+      hotelName: faker.word.adjective({ strategy: "any-length" }),
+      city: "белгород",
+      priceAvg: faker.number.int({ min: 3000, max: 20000 }),
+      stars: faker.number.int({ min: 1, max: 5 }),
+      isFavorite: false,
+    });
 
-//     const hotel = await doc.save();
+    const hotel = await doc.save();
 
-//     res.json(hotel);
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({
-//       message: "Не удалось создать отель",
-//     });
-//   }
-// };
+    res.json(hotel);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Не удалось создать отель",
+    });
+  }
+};
