@@ -47,6 +47,29 @@ export const getAll = async (req, res) => {
     });
   }
 };
+export const getById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const checkInDate = req.params.checkInDate;
+    const days = req.params.days;
+
+    let hotel = await HotelModel.findOne({
+      _id: id,
+    });
+
+    res.json({
+      ...hotel._doc,
+      checkInDate,
+      days,
+      priceAvg: hotel.priceAvg * days,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Не удалось получить отели",
+    });
+  }
+};
 
 export const create = async (req, res) => {
   try {

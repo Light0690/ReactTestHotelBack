@@ -34,6 +34,10 @@ app.get(
   "/hotels/:city&:checkInDate&:days&:prices/:stars*?",
   HotelController.getAll
 );
+app.get(
+  "/hotels/byId/:id&:checkInDate&:days",
+  HotelController.getById
+);
 app.post("/hotels", hotelCreateValidation, HotelController.create);
 
 app.listen(4444, (err) => {
