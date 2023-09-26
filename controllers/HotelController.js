@@ -66,7 +66,7 @@ export const getById = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      message: "Не удалось получить отели",
+      message: "Не удалось найти отель",
     });
   }
 };
